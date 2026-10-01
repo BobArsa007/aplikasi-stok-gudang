@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Input Cepat Stok Gudang</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f4f6f9;--card:#fff;--tx:#1b2430;--mut:#667386;--bd:#d6dce4;--pri:#1f3864;--onp:#fff;--ok-bg:#dcf2e3;--ok:#14663a;--bad-bg:#fde0e0;--bad:#a11d1d;--warn:#9a5b00}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#13171e;--card:#1c222c;--tx:#e8ecf2;--mut:#98a2b3;--bd:#303845;--pri:#7ea6ee;--onp:#10151d;--ok-bg:#1b3a29;--ok:#8fdcae;--bad-bg:#4a2323;--bad:#ffb4b4;--warn:#f2c26b}}
+:root[data-theme="dark"]{--bg:#13171e;--card:#1c222c;--tx:#e8ecf2;--mut:#98a2b3;--bd:#303845;--pri:#7ea6ee;--onp:#10151d;--ok-bg:#1b3a29;--ok:#8fdcae;--bad-bg:#4a2323;--bad:#ffb4b4;--warn:#f2c26b}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+.w{max-width:980px;margin:0 auto;padding:14px}
+h1{font-size:20px;margin:4px 0 2px;color:var(--pri)}h2{font-size:15px;margin:0 0 10px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-top:12px}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+label{display:block;font-size:12px;color:var(--mut);margin-bottom:3px}
+input{width:100%;box-sizing:border-box;padding:9px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--tx);font:inherit;font-size:16px}
+button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:9px 14px}
+.p{background:var(--pri);color:var(--onp);border-color:var(--pri);font-weight:600}
+.seg{display:flex;gap:8px;margin-bottom:12px}.seg button{flex:1;font-weight:600}.seg .on{background:var(--pri);color:var(--onp);border-color:var(--pri)}
+.row{display:flex;gap:8px;align-items:end}.row>div{flex:1}
+.mut{color:var(--mut)}.bad-t{color:var(--bad);font-weight:600}.warn{color:var(--warn);font-weight:600}.ok-t{color:var(--ok);font-weight:600}
+.sc{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:520px}
+th,td{padding:7px 8px;border-bottom:1px solid var(--bd);text-align:left;white-space:nowrap}th{font-size:12px;color:var(--mut)}.r{text-align:right}
+.b{padding:2px 8px;border-radius:99px;font-size:12px;font-weight:600}.ok{background:var(--ok-bg);color:var(--ok)}.bad{background:var(--bad-bg);color:var(--bad)}
+.x{padding:2px 8px;color:var(--bad)}summary{cursor:pointer;font-weight:600}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head><body><div class="w">
+<h1>Input Cepat Stok Gudang</h1>
+<div class="mut">Catat barang masuk &amp; keluar dalam satu form. Data contoh fiktif; tersimpan di browser ini. <b id="low"></b></div>
+
+<div class="card"><div class="seg"><button id="bm" class="on">Barang Masuk</button><button id="bk">Barang Keluar</button></div>
+<div class="g">
+<div><label>Tanggal</label><input id="date" type="date"></div>
+<div class="row"><div><label id="docl">No. Dokumen</label><input id="doc"></div><button id="nd" title="Nomor baru">+</button></div>
+<div><label>Barang (kode atau nama)</label><input id="item" list="dl" autocomplete="off" placeholder="mis. PLY-001"><datalist id="dl"></datalist></div>
+<div><label>Jumlah</label><input id="qty" type="number" min="0" step="any" inputmode="decimal"></div>
+<div><label id="xl">Supplier</label><input id="extra"></div>
+</div>
+<div id="info" class="mut" style="margin:10px 0 8px"></div>
+<button id="add" class="p">Simpan transaksi</button> <span id="msg" style="margin-left:8px"></span></div>
+
+<div class="card"><div class="row" style="margin-bottom:8px"><div><h2 style="margin:0">Stok saat ini</h2></div><div style="max-width:220px"><input id="flt" placeholder="Cari barang..."></div></div>
+<div class="sc"><table><thead><tr><th>Kode</th><th>Nama</th><th class="r">Stok</th><th class="r">Min</th><th>Status</th></tr></thead><tbody id="stk"></tbody></table></div>
+<details style="margin-top:12px"><summary>+ Tambah barang baru</summary><div class="g" style="margin-top:10px">
+<div><label>Kode</label><input id="nk"></div><div><label>Nama</label><input id="nn"></div><div><label>Satuan</label><input id="ns" placeholder="Lembar, Pcs, Kg..."></div>
+<div><label>Stok awal</label><input id="na" type="number" min="0" step="any"></div><div><label>Stok minimum</label><input id="nm" type="number" min="0" step="any"></div></div>
+<button id="ni" style="margin-top:10px">Tambah barang</button> <span id="nmsg" class="mut"></span></details></div>
+
+<div class="card"><h2>Transaksi terakhir</h2><div class="sc"><table><thead><tr><th>Tanggal</th><th>Jenis</th><th>Dokumen</th><th>Barang</th><th class="r">Jumlah</th><th>Supplier / Tujuan</th><th></th></tr></thead><tbody id="log"></tbody></table></div></div>
+
+<div class="card"><h2>Ekspor ke Excel</h2><div class="mut" style="margin-bottom:10px">File .xlsx berisi sheet Barang Masuk, Barang Keluar, dan Stok, dengan kolom yang sama seperti template Excel, jadi bisa langsung disalin ke sana.</div>
+<button id="exp" class="p">Unduh Excel (.xlsx)</button> <span id="emsg" class="mut" style="margin-left:8px"></span>
+<div style="margin-top:12px"><button id="rs">Reset ke data contoh</button></div></div>
+</div>
+<script>
+const $=i=>document.getElementById(i);
+const SAMPLE=[["PLY-001","Plywood 18 mm (122 x 244 cm)","Lembar",120,40],["PLY-002","Plywood 9 mm (122 x 244 cm)","Lembar",80,30],["MDF-001","MDF 18 mm (122 x 244 cm)","Lembar",90,35],["BLK-001","Blockboard 18 mm (122 x 244 cm)","Lembar",60,20],["KYU-001","Kayu Mahoni 3 x 5 cm","Batang",200,60],["EDG-001","Edging Tape PVC Putih 22 mm","Roll",25,8],["EDG-002","Edging Tape PVC Walnut 22 mm","Roll",18,6],["HNG-001","Engsel Sendok","Pcs",400,150],["RAL-001","Rel Laci 40 cm","Set",150,50],["HDL-001","Handle Tarik Aluminium","Pcs",300,100],["SKR-001","Sekrup 4 x 25 mm (isi 1000)","Box",40,15],["LEM-001","Lem Kayu PVAc","Kg",60,20],["FIN-001","Melamic Clear Gloss","Kaleng",30,10],["FIN-002","Thinner","Liter",80,25],["AMP-001","Amplas No. 240","Lembar",500,150],["PKG-001","Bubble Wrap","Roll",15,5]];
+const fresh=()=>({items:SAMPLE.map(a=>a.slice()),tx:[],n:1});
+let S=null;try{S=JSON.parse(localStorage.getItem("stok-v1"))}catch(e){}
+if(!S||!S.items)S=fresh();
+const save=()=>{try{localStorage.setItem("stok-v1",JSON.stringify(S))}catch(e){}};
+const today=()=>new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt=d=>d.split("-").reverse().join("/");
+const sum=(j,k)=>S.tx.filter(t=>t.t===j&&t.k===k).reduce((a,t)=>a+t.q,0);
+const stock=k=>{const it=S.items.find(i=>i[0]===k);return it?it[3]+sum("M",k)-sum("K",k):0};
+const status=(s,m)=>s<0?"CEK DATA":s<m?"PERLU RESTOK":"AMAN";
+const find=v=>{v=v.trim().toLowerCase();if(!v)return null;const e=S.items.find(i=>i[0].toLowerCase()===v||i[1].toLowerCase()===v);if(e)return e;const m=S.items.filter(i=>i[0].toLowerCase().includes(v)||i[1].toLowerCase().includes(v));return m.length===1?m[0]:null};
+const docFor=(j,d)=>{const p=(j==="M"?"BM-":"BK-")+d.slice(2,4)+d.slice(5,7)+"-";const n=new Set(S.tx.filter(t=>t.doc.startsWith(p)).map(t=>t.doc)).size;return p+String(n+1).padStart(3,"0")};
+let jenis="M";
+function info(){const it=find($("item").value),el=$("info");if(!it){el.className="mut";el.textContent="Pilih barang dari daftar.";return}
+const s=stock(it[0]),q=parseFloat($("qty").value)||0,a=jenis==="M"?s+q:s-q;
+el.className=a<0?"bad-t":a<it[4]?"warn":"mut";
+el.textContent="Stok saat ini: "+s+" "+it[2]+" · minimum "+it[4]+(q?" · setelah transaksi: "+a+(a<0?" (stok tidak cukup)":a<it[4]?" (di bawah minimum)":""):"")}
+function setJ(j){jenis=j;$("bm").classList.toggle("on",j==="M");$("bk").classList.toggle("on",j==="K");
+$("xl").textContent=j==="M"?"Supplier":"Tujuan";$("extra").placeholder=j==="M"?"mis. CV Sumber Panel Jaya":"mis. Produksi - Cutting";
+$("docl").textContent=j==="M"?"No. Dokumen":"No. Surat Jalan / Permintaan";
+const l=[...S.tx].reverse().find(t=>t.t===j);$("doc").value=l?l.doc:docFor(j,$("date").value||today());info()}
+function render(){
+$("dl").innerHTML=S.items.map(i=>`<option value="${esc(i[0])}">${esc(i[1])}</option>`).join("");
+const q=$("flt").value.trim().toLowerCase();
+$("stk").innerHTML=S.items.filter(i=>!q||i[0].toLowerCase().includes(q)||i[1].toLowerCase().includes(q)).map(i=>{const s=stock(i[0]),st=status(s,i[4]);return `<tr><td>${esc(i[0])}</td><td>${esc(i[1])}</td><td class="r"><b>${s}</b> ${esc(i[2])}</td><td class="r">${i[4]}</td><td><span class="b ${st==="AMAN"?"ok":"bad"}">${st}</span></td></tr>`}).join("");
+const low=S.items.filter(i=>stock(i[0])<i[4]).length;$("low").textContent=low?low+" barang perlu restok.":"Semua stok aman.";
+$("log").innerHTML=[...S.tx].reverse().slice(0,20).map(t=>{const it=S.items.find(i=>i[0]===t.k)||[t.k,"?","",0,0];return `<tr><td>${fmt(t.d)}</td><td>${t.t==="M"?"Masuk":"Keluar"}</td><td>${esc(t.doc)}</td><td>${esc(it[1])}</td><td class="r">${t.q} ${esc(it[2])}</td><td>${esc(t.x)}</td><td><button class="x" data-id="${t.id}" title="Hapus">✕</button></td></tr>`}).join("")||`<tr><td colspan="7" class="mut">Belum ada transaksi.</td></tr>`;
+info()}
+$("bm").onclick=()=>setJ("M");$("bk").onclick=()=>setJ("K");
+$("date").onchange=()=>setJ(jenis);$("nd").onclick=()=>{$("doc").value=docFor(jenis,$("date").value||today())};
+$("item").oninput=info;$("qty").oninput=info;$("flt").oninput=render;
+$("add").onclick=()=>{const it=find($("item").value),q=parseFloat($("qty").value),d=$("date").value,doc=$("doc").value.trim(),m=$("msg");
+const err=!d?"Isi tanggal.":!doc?"Isi nomor dokumen.":!it?"Pilih barang dari daftar.":!(q>0)?"Jumlah harus lebih dari 0.":jenis==="K"&&q>stock(it[0])?"Stok tidak cukup. Tersedia "+stock(it[0])+" "+it[2]+".":"";
+if(err){m.textContent=err;m.className="bad-t";return}
+S.tx.push({id:S.n++,t:jenis,d,doc,k:it[0],q,x:$("extra").value.trim()});save();
+const s=stock(it[0]);m.textContent="Tersimpan: "+it[1]+" "+(jenis==="M"?"+":"-")+q+". Stok sekarang "+s+" "+it[2]+"."+(s<it[4]?" Perhatian: di bawah minimum.":"");m.className=s<it[4]?"warn":"ok-t";
+$("qty").value="";$("item").value="";render();$("item").focus()};
+$("log").onclick=e=>{const b=e.target.closest("button[data-id]");if(!b)return;S.tx=S.tx.filter(t=>String(t.id)!==b.dataset.id);save();render()};
+$("ni").onclick=()=>{const ids=["nk","nn","ns","na","nm"],v=ids.map(i=>$(i).value.trim()),m=$("nmsg");
+if(!v[0]||!v[1]||!v[2]){m.textContent="Kode, nama, dan satuan wajib diisi.";return}
+if(S.items.some(i=>i[0].toLowerCase()===v[0].toLowerCase())){m.textContent="Kode sudah ada.";return}
+S.items.push([v[0].toUpperCase(),v[1],v[2],parseFloat(v[3])||0,parseFloat(v[4])||0]);save();ids.forEach(i=>$(i).value="");m.textContent="Barang ditambahkan.";render()};
+let armed=0;$("rs").onclick=()=>{if(!armed){armed=1;$("rs").textContent="Klik lagi: hapus semua transaksi & barang baru";return}
+S=fresh();save();armed=0;$("rs").textContent="Reset ke data contoh";render();setJ(jenis)};
+$("exp").onclick=async()=>{const m=$("emsg");try{if(!window.XLSX)throw 0;
+const sheet=(j,a,b)=>{const rows=S.tx.filter(t=>t.t===j).sort((x,y)=>x.d<y.d?-1:x.d>y.d?1:x.id-y.id).map(t=>{const it=S.items.find(i=>i[0]===t.k)||[t.k,"",""];return [new Date(t.d+"T00:00:00"),t.doc,t.k,it[1],it[2],t.q,t.x]});
+const ws=XLSX.utils.aoa_to_sheet([["Tanggal",a,"Kode Barang","Nama Barang","Satuan","Jumlah",b],...rows],{cellDates:true});
+rows.forEach((_,i)=>{const c=ws["A"+(i+2)];if(c)c.z="dd/mm/yyyy"});ws["!cols"]=[12,24,12,32,9,9,26].map(w=>({wch:w}));return ws};
+const wb=XLSX.utils.book_new();
+XLSX.utils.book_append_sheet(wb,sheet("M","No. Dokumen","Supplier"),"Barang Masuk");
+XLSX.utils.book_append_sheet(wb,sheet("K","No. Surat Jalan / Permintaan","Tujuan"),"Barang Keluar");
+const st=S.items.map(i=>{const mi=sum("M",i[0]),ke=sum("K",i[0]),s=i[3]+mi-ke;return [i[0],i[1],i[2],i[3],mi,ke,s,i[4],status(s,i[4])]});
+const w3=XLSX.utils.aoa_to_sheet([["Kode Barang","Nama Barang","Satuan","Stok Awal","Total Masuk","Total Keluar","Stok Akhir","Stok Minimum","Status"],...st]);
+w3["!cols"]=[12,32,9,10,12,12,11,13,14].map(w=>({wch:w}));XLSX.utils.book_append_sheet(wb,w3,"Stok");
+XLSX.writeFile(wb,"Stok_Gudang_"+today()+".xlsx");m.textContent="File Excel diunduh."}
+catch(e){m.textContent="Gagal membuat file Excel."}};
+$("date").value=today();setJ("M");render();
+</script></body></html>
