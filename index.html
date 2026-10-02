@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="id"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Input Cepat Stok Gudang</title>
+<title>Aplikasi Stok Gudang</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
@@ -124,46 +124,193 @@ tbody tr:hover td{background:var(--tint)}
 .exp p{margin:0;flex:1 1 320px;color:var(--mut);max-width:56ch}
 #emsg{flex-basis:100%}#emsg:empty,#nmsg:empty{display:none}
 @media (prefers-reduced-motion:reduce){*,*::before{transition:none!important}}
+
+/* Layout layer */
+:root{padding-top:0;--r:16px;--sh:0 1px 2px rgba(20,35,30,.06),0 14px 28px -18px rgba(20,35,30,.38);--bar:#15221e;--bart:#eaf2ee;--barm:#9db3aa}
+.bar{background:var(--bar);color:var(--bart);padding-top:env(safe-area-inset-top,0px)}
+.bw{max-width:1180px;margin:0 auto;padding:20px 16px;display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;justify-content:space-between}
+.brand{display:flex;gap:14px;align-items:center;min-width:0}
+.mk{flex:none;width:48px;height:48px;padding:12px;border-radius:14px;background:var(--in);color:var(--on-mode);fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+h1{font-size:clamp(22px,3vw,28px);font-stretch:120%;font-weight:750;color:var(--bart)}
+.sub{margin-top:4px;font-size:13px;color:var(--barm);max-width:52ch}
+.tools{display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center}
+.bar .chip{margin:0;background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.16);color:var(--bart)}
+.bar .chip.ok{color:#7fe0b4}.bar .chip.bad{background:#4a2420;color:#ffb0a8}
+.bar .p{--mode:#eaf2ee;--on-mode:#15221e}
+#emsg{flex-basis:auto;font-size:12.5px;color:var(--barm)}
+.w{padding:24px 16px 52px}
+.shell{gap:24px}
+@media(min-width:960px){.shell{grid-template-columns:minmax(340px,388px) minmax(0,1fr)}}
+.slip{padding:0;border-radius:20px;box-shadow:var(--sh)}
+.slip::before{display:none}
+.seg{margin:0;padding:12px;gap:6px;border:0;border-radius:0;background:var(--mode);transition:background-color .2s}
+.seg button{display:flex;align-items:center;justify-content:center;gap:8px;border-radius:11px;font-weight:650;color:color-mix(in srgb,var(--on-mode) 80%,transparent)}
+.seg button::before{font-size:17px;font-weight:800;line-height:1}
+#bm::before{content:"\2193"}#bk::before{content:"\2191"}
+.seg button:not(.on):hover{background:rgba(255,255,255,.14);color:var(--on-mode)}
+.seg button.on{background:var(--card);color:var(--mode);box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.sb{padding:20px 20px 22px}
+.sb .grp{grid-template-columns:minmax(0,1fr) 124px}
+.stub{position:relative;background:var(--tint);border-top:2px dashed var(--bd);padding:22px 20px 20px}
+.stub::before,.stub::after{content:"";position:absolute;top:-12px;width:22px;height:22px;border-radius:50%;background:var(--bg);border:1px solid var(--bd)}
+.stub::before{left:-12px}.stub::after{right:-12px}
+.stub input{background:var(--card)}
+.slip .p{margin-top:20px}
+label{font-size:12.5px;font-weight:650}
+input{border-radius:10px}
+input:hover{border-color:var(--mut)}
+input:focus{outline:2px solid transparent;border-color:var(--mode);box-shadow:0 0 0 4px color-mix(in srgb,var(--mode) 22%,transparent)}
+.rd{align-items:flex-start;gap:12px 8px;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--mode) 8%,var(--tint));border-color:color-mix(in srgb,var(--mode) 25%,var(--bd2))}
+.rd .kv{display:flex;flex-direction:column;gap:2px;flex:1 1 84px;white-space:normal}
+.rd small{font-size:11.5px;font-weight:600;color:var(--mut)}
+.rd b{font-size:20px;line-height:1.15;font-weight:750;font-stretch:112%}
+.rd b i{margin-left:4px;font-style:normal;font-size:12px;font-weight:500;color:var(--mut)}
+.rd .full{padding-top:8px;border-top:1px dashed currentColor}
+.rd.warn,.rd.bad{border-color:transparent}
+.rd.warn small,.rd.bad small,.rd.warn b i,.rd.bad b i{color:inherit;opacity:.8}
+button{border-radius:10px;font-weight:600}
+.p{min-height:50px;font-size:15.5px;box-shadow:0 3px 0 color-mix(in srgb,var(--mode) 55%,#000)}
+.p:active{transform:translateY(2px);box-shadow:0 1px 0 color-mix(in srgb,var(--mode) 55%,#000)}
+.bar .p{min-height:44px}
+#msg{margin-top:12px;border-radius:10px}
+#msg:empty{display:none}
+#msg.ok-t,#msg.bad-t,#msg.warn{padding:10px 12px;animation:pop .25s ease-out}
+#msg.ok-t{background:var(--in-bg)}#msg.bad-t{background:var(--bad-bg)}#msg.warn{background:var(--warn-bg)}
+@keyframes pop{from{opacity:0;transform:translateY(-4px)}}
+.sh{margin-bottom:12px}
+h2{font-size:18px;font-weight:700;font-stretch:112%}
+.sh input{padding-left:16px;border-radius:99px}
+.sheet{border-radius:var(--r);box-shadow:var(--sh)}
+th{padding-top:11px;padding-bottom:11px;background:var(--tint);letter-spacing:.02em}
+td{padding-top:13px;padding-bottom:13px}
+.cd{font-weight:700;letter-spacing:.02em}
+.sv{font-size:16px;font-weight:700}
+tr.lo td:first-child{box-shadow:inset 4px 0 var(--bad)}
+tr.lo .sv{color:var(--bad)}
+.lv{width:96px;height:8px}.lv u{top:-4px;bottom:-4px;width:3px}
+.st{padding:3px 11px 3px 9px}.st.ok{background:var(--in-bg)}
+.tg{padding:3px 11px}
+.tg.in::before{content:"\2193\00a0"}.tg.out::before{content:"\2191\00a0"}
+.add summary{padding:16px}
+.foot{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;justify-content:space-between;color:var(--mut);font-size:13px}
+@media(max-width:560px){.bw{padding:16px 12px}.w{padding:18px 12px 44px}.mk{width:42px;height:42px;padding:10px}.sb,.stub{padding-left:16px;padding-right:16px}.stub::before{left:-12px}.sub{display:none}}
+
+/* Richness layer */
+:root{--bg:#e4e9e4}
+body{background-image:radial-gradient(color-mix(in srgb,var(--mut) 30%,transparent) 1px,transparent 1.4px);background-size:22px 22px}
+.bar::before{content:"";display:block;height:10px;background:repeating-linear-gradient(180deg,#ead3a8 0 2px,#b98a52 2px 3px,#dcbd8a 3px 5px,#a4743e 5px 6px,#e6caa0 6px 8px,#b58648 8px 10px)}
+.bw{padding:22px 16px 58px}
+h1{font-size:clamp(24px,3.4vw,34px)}
+.mk{width:56px;height:56px;padding:14px;border-radius:16px;box-shadow:0 0 0 6px rgba(255,255,255,.07)}
+.kpi{position:relative;max-width:1180px;margin:-36px auto 0;padding:0 16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.k{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--card);border:1px solid var(--bd);border-radius:16px;box-shadow:var(--sh)}
+.k span{display:block;font-size:12.5px;font-weight:600;color:var(--mut)}
+.k b{font-size:26px;line-height:1.1;font-weight:750;font-stretch:115%}
+.ki{flex:none;display:grid;place-items:center;width:42px;height:42px;border-radius:13px;font-style:normal;font-size:21px;font-weight:800;background:var(--tint);color:var(--tx)}
+.ki.m{background:var(--in-bg);color:var(--in)}.ki.o{background:var(--out-bg);color:var(--out)}
+.ki.n::before{content:"\2261"}.ki.m::before{content:"\2193"}.ki.o::before{content:"\2191"}
+.slip{box-shadow:0 1px 0 var(--bd2),0 28px 40px -28px color-mix(in srgb,var(--mode) 65%,transparent)}
+.seg button{min-height:46px;font-size:15px}
+th{color:var(--tx);font-weight:650;border-bottom:2px solid var(--bd)}
+tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--tint) 60%,transparent)}
+tbody tr:hover td{background:color-mix(in srgb,var(--mode) 7%,var(--tint))}
+@media(max-width:560px){.bw{padding:16px 12px 50px}.kpi{padding:0 12px;gap:8px;margin-top:-32px}.k{flex-direction:column;align-items:flex-start;gap:4px;padding:12px}.ki{display:none}.k b{font-size:22px}}
+
+/* Finish layer */
+.bar{position:relative;overflow:hidden;background:radial-gradient(60% 150% at 92% -30%,color-mix(in srgb,var(--in) 50%,transparent),transparent 62%),radial-gradient(45% 120% at 0% 130%,rgba(185,138,82,.24),transparent 60%),linear-gradient(135deg,#0e1a16,#173029 62%,#12231e)}
+.bar::after{content:"";position:absolute;right:-24px;bottom:-56px;width:290px;height:290px;opacity:.09;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='.7' stroke-linejoin='round'%3E%3Cpath d='M3 8l9-4.5L21 8l-9 4.5L3 8zM3 12.5l9 4.5 9-4.5M3 17l9 4.5 9-4.5'/%3E%3C/svg%3E") center/contain no-repeat}
+.bw{position:relative;z-index:1}
+h1{letter-spacing:-.015em;text-shadow:0 2px 16px rgba(0,0,0,.3)}
+.mk{background:linear-gradient(145deg,color-mix(in srgb,var(--in) 75%,#fff),var(--in));box-shadow:0 0 0 6px rgba(255,255,255,.07),0 12px 22px -8px rgba(0,0,0,.55)}
+.bar .p::before{content:"\25A6";margin-right:8px;font-size:16px}
+.bar .p{box-shadow:0 3px 0 #b9c9c1,0 12px 20px -10px rgba(0,0,0,.6)}
+.k{position:relative;overflow:hidden;padding:16px 18px;border-radius:18px}
+.k::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--bd)}
+.k:has(.m)::after{background:var(--in)}.k:has(.o)::after{background:var(--out)}
+.k b{font-size:30px;letter-spacing:-.02em}
+.ki{width:46px;height:46px;border-radius:14px;box-shadow:inset 0 0 0 1px color-mix(in srgb,currentColor 20%,transparent)}
+.slip{border-radius:24px;border-color:color-mix(in srgb,var(--mode) 25%,var(--bd))}
+.seg{padding:14px;background-image:linear-gradient(160deg,rgba(255,255,255,.2),transparent 55%,rgba(0,0,0,.18))}
+.stub{background:linear-gradient(180deg,var(--tint),color-mix(in srgb,var(--mode) 5%,var(--tint)))}
+.bc{height:34px;margin-top:20px;border-radius:3px;opacity:.5;background:repeating-linear-gradient(90deg,var(--mode) 0 2px,transparent 2px 5px,var(--mode) 5px 6px,transparent 6px 8px,var(--mode) 8px 11px,transparent 11px 12px,var(--mode) 12px 13px,transparent 13px 17px)}
+input{box-shadow:inset 0 1px 2px rgba(20,35,30,.07)}
+.p,.p:hover{background-image:linear-gradient(180deg,rgba(255,255,255,.2),transparent)}
+.cnt{padding:2px 10px;border-radius:99px;background:var(--in-bg);color:var(--in);font-size:12.5px;font-weight:650;font-stretch:100%;vertical-align:2px;margin-left:6px}
+.sheet{border-radius:20px}
+.sc{max-height:560px;overflow:auto}
+thead th{position:sticky;top:0;z-index:1;border-bottom:0;box-shadow:0 2px 0 var(--bd)}
+.cb{display:inline-block;width:10px;height:10px;margin-right:10px;border-radius:3px;vertical-align:-1px;background:hsl(var(--h) 52% 46%);box-shadow:0 0 0 3px hsl(var(--h) 52% 46%/.2)}
+td.mut[colspan]{padding:38px 14px;text-align:center;white-space:normal}
+.add summary:hover{background:var(--tint)}
+@keyframes fl{from{background:color-mix(in srgb,var(--in) 28%,transparent)}}
+tr.new td{animation:fl 1.8s ease-out}
+@media(prefers-reduced-motion:reduce){tr.new td{animation:none}}
+@media(max-width:560px){.bar::after{width:200px;height:200px}.k b{font-size:24px}}
+
+/* Stock alerts: amber = menipis (within 1.5x minimum), red = below minimum */
+:root{--amb:#e0a21f}
+.bar.alert,.bar.watch{background:radial-gradient(60% 150% at 92% -30%,color-mix(in srgb,var(--in) 55%,transparent),transparent 62%),radial-gradient(45% 120% at 0% 130%,rgba(185,138,82,.2),transparent 60%),linear-gradient(135deg,var(--b1),var(--b2) 62%,var(--b1))}
+.bar.alert{--in:#e5483c;--on-mode:#fff;--b1:#200d0b;--b2:#43181a}
+.bar.watch{--in:#e0a21f;--on-mode:#1b1500;--b1:#1f1808;--b2:#3b2d0c}
+.bar .chip.wn{background:#443410;color:#f5cf6e;border-color:transparent}
+.bar.alert .chip::before{animation:pl 1.6s ease-in-out infinite}
+.lv.thin i{background:var(--amb)}
+.lv.low i{animation:pl 1.6s ease-in-out infinite}
+@keyframes pl{50%{opacity:.45}}
+tbody tr.lo td{background:color-mix(in srgb,var(--bad) 7%,transparent)}
+tr.th2 td:first-child{box-shadow:inset 4px 0 var(--amb)}
+tr.th2 .sv{color:var(--warn)}
+.st.warn{color:var(--warn);background:var(--warn-bg)}
+@media(prefers-reduced-motion:reduce){.bar.alert .chip::before,.lv.low i{animation:none}}
+
+/* Edit items */
+.eb{color:var(--mut)}
+.eb:hover{background:var(--in-bg);color:var(--in)}
+.add.editing{background:color-mix(in srgb,var(--in) 6%,transparent)}
+.add.editing summary{color:var(--in)}
+tbody tr.ing td{background:color-mix(in srgb,var(--in) 13%,var(--card))}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-</head><body><div class="w">
-
-<header class="top">
-<div><h1>Input Cepat Stok Gudang</h1><p class="sub">Catat barang masuk dan keluar dalam satu form. Data contoh bersifat fiktif dan tersimpan di browser ini.</p></div>
-<div id="low" class="chip" role="status"></div>
-</header>
+</head><body><header class="bar"><div class="bw">
+<div class="brand"><svg class="mk" aria-hidden="true" viewBox="0 0 24 24"><path d="M3 8l9-4.5L21 8l-9 4.5L3 8zM3 12.5l9 4.5 9-4.5M3 17l9 4.5 9-4.5"/></svg><div><h1>Aplikasi Stok Gudang</h1><p class="sub">Catat barang masuk dan keluar dalam satu form. Data contoh bersifat fiktif dan tersimpan di browser ini.</p></div></div>
+<div class="tools"><div id="low" class="chip" role="status"></div><button id="exp" class="p">Unduh Excel (.xlsx)</button><span id="emsg"></span></div>
+</div></header>
+<div class="kpi" aria-label="Ringkasan"><div class="k"><i class="ki n"></i><div><span>Jenis barang</span><b id="k1">0</b></div></div><div class="k"><i class="ki m"></i><div><span>Masuk hari ini</span><b id="k2">0</b></div></div><div class="k"><i class="ki o"></i><div><span>Keluar hari ini</span><b id="k3">0</b></div></div></div>
+<div class="w">
 
 <div class="shell">
 <section class="slip" id="slip" data-mode="M" aria-label="Form transaksi">
 <div class="seg" role="group" aria-label="Jenis transaksi"><button id="bm" class="on" aria-pressed="true">Barang masuk</button><button id="bk" aria-pressed="false">Barang keluar</button></div>
-<div class="grp">
+<div class="sb"><div class="grp">
+<div class="f"><label for="item">Barang (kode atau nama)</label><input id="item" list="dl" autocomplete="off" placeholder="mis. PLY-001"><datalist id="dl"></datalist></div>
+<div class="f"><label for="qty">Jumlah</label><div class="fx"><input id="qty" type="number" min="0" step="any" inputmode="decimal"><span id="unit" class="unit"></span></div></div>
+<div id="info" class="rd" aria-live="polite"></div>
+</div></div>
+<div class="stub"><div class="grp">
 <div class="f"><label for="date">Tanggal</label><input id="date" type="date"></div>
 <div class="f"><label id="docl" for="doc">No. dokumen</label><div class="inl"><input id="doc"><button id="nd" class="ic" title="Buat nomor baru" aria-label="Buat nomor dokumen baru">+</button></div></div>
 <div class="f"><label id="xl" for="extra">Supplier</label><input id="extra"></div>
 </div>
-<div class="grp">
-<div class="f"><label for="item">Barang (kode atau nama)</label><input id="item" list="dl" autocomplete="off" placeholder="mis. PLY-001"><datalist id="dl"></datalist></div>
-<div class="f"><label for="qty">Jumlah</label><div class="fx"><input id="qty" type="number" min="0" step="any" inputmode="decimal"><span id="unit" class="unit"></span></div></div>
-<div id="info" class="rd" aria-live="polite"></div>
-</div>
 <button id="add" class="p">Simpan barang masuk</button>
 <div id="msg" role="status"></div>
+<div class="bc" aria-hidden="true"></div>
+</div>
 </section>
 
 <div class="main">
 <section>
-<div class="sh"><h2>Stok saat ini</h2><input id="flt" type="search" placeholder="Cari kode atau nama" aria-label="Cari barang"></div>
+<div class="sh"><h2>Stok saat ini<span id="cnt" class="cnt"></span></h2><input id="flt" type="search" placeholder="Cari kode atau nama" aria-label="Cari barang"></div>
 <div class="sheet">
-<div class="sc"><table><thead><tr><th>Kode</th><th>Nama</th><th class="r">Stok</th><th class="r">Min</th><th class="lvc">Level</th><th>Status</th></tr></thead><tbody id="stk"></tbody></table></div>
-<details class="add"><summary>Tambah barang baru</summary><div class="body">
+<div class="sc"><table><thead><tr><th>Kode</th><th>Nama</th><th class="r">Stok</th><th class="r">Min</th><th class="lvc">Level</th><th>Status</th><th><span class="vh">Ubah</span></th></tr></thead><tbody id="stk"></tbody></table></div>
+<details class="add" id="ad"><summary id="asm">Tambah barang baru</summary><div class="body">
 <div class="grp sm">
 <div class="f"><label for="nk">Kode</label><input id="nk"></div>
 <div class="f"><label for="nn">Nama</label><input id="nn"></div>
 <div class="f"><label for="ns">Satuan</label><input id="ns" placeholder="Lembar, Pcs, Kg..."></div>
-<div class="f"><label for="na">Stok awal</label><input id="na" type="number" min="0" step="any"></div>
+<div class="f"><label id="nal" for="na">Stok awal</label><input id="na" type="number" min="0" step="any"></div>
 <div class="f"><label for="nm">Stok minimum</label><input id="nm" type="number" min="0" step="any"></div>
 </div>
-<div class="acts"><button id="ni">Tambah barang</button><span id="nmsg" class="mut"></span></div>
+<div class="acts"><button id="ni">Tambah barang</button><button id="nc" class="ghost" hidden>Batal</button><span id="nmsg" class="mut"></span></div>
 </div></details>
 </div>
 </section>
@@ -173,12 +320,7 @@ tbody tr:hover td{background:var(--tint)}
 <div class="sheet"><div class="sc"><table><thead><tr><th>Tanggal</th><th>Jenis</th><th>Dokumen</th><th>Barang</th><th class="r">Jumlah</th><th>Supplier / tujuan</th><th><span class="vh">Aksi</span></th></tr></thead><tbody id="log"></tbody></table></div></div>
 </section>
 
-<section>
-<div class="sh"><h2>Ekspor ke Excel</h2></div>
-<div class="sheet exp"><p>File .xlsx berisi sheet Barang Masuk, Barang Keluar, dan Stok, dengan kolom yang sama seperti template Excel, jadi bisa langsung disalin ke sana.</p>
-<div class="acts"><button id="exp" class="p">Unduh Excel (.xlsx)</button><button id="rs" class="ghost">Reset ke data contoh</button></div>
-<span id="emsg" class="mut"></span></div>
-</section>
+<div class="foot"><span>File Excel berisi sheet Barang Masuk, Barang Keluar, dan Stok.</span><button id="rs" class="ghost">Reset ke data contoh</button></div>
 </div>
 </div>
 </div>
@@ -198,7 +340,7 @@ const sum=(j,k)=>S.tx.filter(t=>t.t===j&&t.k===k).reduce((a,t)=>a+t.q,0);
 const stock=k=>{const it=S.items.find(i=>i[0]===k);return it?it[3]+sum("M",k)-sum("K",k):0};
 const status=(s,m)=>s<0?"CEK DATA":s<m?"PERLU RESTOK":"AMAN";
 const LBL={"AMAN":"Aman","PERLU RESTOK":"Perlu restok","CEK DATA":"Cek data"};
-const meter=(s,m)=>{const sc=Math.max(m*2,s,1),f=Math.max(0,Math.min(1,s/sc))*100;return `<span class="lv${s<m?" low":""}" role="img" aria-label="Stok ${n(s)}, minimum ${n(m)}"><i style="width:${f}%"></i>${m>0?`<u style="left:${m/sc*100}%"></u>`:""}</span>`};
+const meter=(s,m)=>{const sc=Math.max(m*2,s,1),f=Math.max(0,Math.min(1,s/sc))*100;return `<span class="lv${s<m?" low":s<m*1.5?" thin":""}" role="img" aria-label="Stok ${n(s)}, minimum ${n(m)}"><i style="width:${f}%"></i>${m>0?`<u style="left:${m/sc*100}%"></u>`:""}</span>`};
 const find=v=>{v=v.trim().toLowerCase();if(!v)return null;const e=S.items.find(i=>i[0].toLowerCase()===v||i[1].toLowerCase()===v);if(e)return e;const m=S.items.filter(i=>i[0].toLowerCase().includes(v)||i[1].toLowerCase().includes(v));return m.length===1?m[0]:null};
 const docFor=(j,d)=>{const p=(j==="M"?"BM-":"BK-")+d.slice(2,4)+d.slice(5,7)+"-";const n=new Set(S.tx.filter(t=>t.doc.startsWith(p)).map(t=>t.doc)).size;return p+String(n+1).padStart(3,"0")};
 let jenis="M";
@@ -207,7 +349,7 @@ if(!it){el.className="rd";el.textContent="Pilih barang dari daftar untuk melihat
 const s=stock(it[0]),q=parseFloat($("qty").value)||0,a=jenis==="M"?s+q:s-q,u=esc(it[2]),mn=it[4];
 const note=a<0?(jenis==="K"&&q?"Stok tidak cukup":"Stok negatif, periksa transaksi"):a<mn?"Di bawah minimum":"";
 el.className="rd"+(a<0?" bad":a<mn?" warn":"");
-el.innerHTML=`<span class="kv">Stok saat ini <b>${n(s)}</b> ${u}</span><span class="kv">Minimum <b>${n(mn)}</b></span>`+(q?`<span class="kv">Setelah transaksi <b>${n(a)}</b> ${u}</span>`:"")+(note?`<span class="full">${note}</span>`:"")}
+el.innerHTML=`<span class="kv"><small>Stok saat ini</small><b>${n(s)}<i>${u}</i></b></span><span class="kv"><small>Minimum</small><b>${n(mn)}</b></span>`+(q?`<span class="kv"><small>Setelah transaksi</small><b>${n(a)}<i>${u}</i></b></span>`:"")+(note?`<span class="full">${note}</span>`:"")}
 function setJ(j){jenis=j;$("slip").dataset.mode=j;
 $("bm").classList.toggle("on",j==="M");$("bk").classList.toggle("on",j==="K");
 $("bm").setAttribute("aria-pressed",j==="M");$("bk").setAttribute("aria-pressed",j==="K");
@@ -218,9 +360,9 @@ const l=[...S.tx].reverse().find(t=>t.t===j);$("doc").value=l?l.doc:docFor(j,$("
 function render(){
 $("dl").innerHTML=S.items.map(i=>`<option value="${esc(i[0])}">${esc(i[1])}</option>`).join("");
 const q=$("flt").value.trim().toLowerCase();
-const rows=S.items.filter(i=>!q||i[0].toLowerCase().includes(q)||i[1].toLowerCase().includes(q)).map(i=>{const s=stock(i[0]),st=status(s,i[4]);return `<tr><td class="cd">${esc(i[0])}</td><td>${esc(i[1])}</td><td class="r"><b class="sv">${n(s)}</b> <span class="un">${esc(i[2])}</span></td><td class="r">${n(i[4])}</td><td class="lvc">${meter(s,i[4])}</td><td><span class="st ${st==="AMAN"?"ok":"bad"}">${LBL[st]}</span></td></tr>`});
-$("stk").innerHTML=rows.join("")||`<tr><td colspan="6" class="mut">Tidak ada barang yang cocok.</td></tr>`;
-const low=S.items.filter(i=>stock(i[0])<i[4]).length;$("low").textContent=low?low+" barang perlu restok":"Semua stok aman";$("low").className="chip "+(low?"bad":"ok");
+const rows=S.items.filter(i=>!q||i[0].toLowerCase().includes(q)||i[1].toLowerCase().includes(q)).map(i=>{const s=stock(i[0]),st=status(s,i[4]),th=st==="AMAN"&&s<i[4]*1.5;return `<tr class="${(st!=="AMAN"?"lo":th?"th2":"")+(i[0]===ed?" ing":"")}"><td class="cd"><i class="cb" style="--h:${[...i[0].split("-")[0]].reduce((h,c)=>(h*37+c.charCodeAt(0)*11)%360,0)}"></i>${esc(i[0])}</td><td>${esc(i[1])}</td><td class="r"><b class="sv">${n(s)}</b> <span class="un">${esc(i[2])}</span></td><td class="r">${n(i[4])}</td><td class="lvc">${meter(s,i[4])}</td><td><span class="st ${th?"warn":st==="AMAN"?"ok":"bad"}">${th?"Menipis":LBL[st]}</span></td><td class="r"><button class="x eb" data-k="${esc(i[0])}" title="Ubah barang" aria-label="Ubah ${esc(i[1])}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4"/></svg></button></td></tr>`});
+$("stk").innerHTML=rows.join("")||`<tr><td colspan="7" class="mut">Tidak ada barang yang cocok.</td></tr>`;
+{const t=today(),c=x=>S.tx.filter(y=>y.t===x&&y.d===t).length;$("k1").textContent=S.items.length;$("cnt").textContent=rows.length+" barang";$("k2").textContent=c("M");$("k3").textContent=c("K")}const low=S.items.filter(i=>stock(i[0])<i[4]).length,thin=S.items.filter(i=>{const s=stock(i[0]);return s>=i[4]&&s<i[4]*1.5}).length;$("low").textContent=low?low+" barang perlu restok":thin?thin+" barang menipis":"Semua stok aman";$("low").className="chip "+(low?"bad":thin?"wn":"ok");document.querySelector(".bar").className="bar"+(low?" alert":thin?" watch":"");document.title=(low?"("+low+") ":"")+"Aplikasi Stok Gudang";
 $("log").innerHTML=[...S.tx].reverse().slice(0,20).map(t=>{const it=S.items.find(i=>i[0]===t.k)||[t.k,"?","",0,0],m=t.t==="M";return `<tr><td>${fmt(t.d)}</td><td><span class="tg ${m?"in":"out"}">${m?"Masuk":"Keluar"}</span></td><td>${esc(t.doc)}</td><td>${esc(it[1])}</td><td class="r"><span class="${m?"qin":"qout"}">${m?"+":"\u2212"}${n(t.q)}</span> <span class="un">${esc(it[2])}</span></td><td>${esc(t.x)||'<span class="mut">-</span>'}</td><td class="r"><button class="x" data-id="${t.id}" title="Hapus" aria-label="Hapus transaksi">\u00d7</button></td></tr>`}).join("")||`<tr><td colspan="7" class="mut">Belum ada transaksi. Transaksi yang disimpan akan muncul di sini.</td></tr>`;
 info()}
 const pick=j=>{if(jenis!==j)$("extra").value="";setJ(j)};
@@ -232,15 +374,24 @@ const err=!d?"Isi tanggal.":!doc?"Isi nomor dokumen.":!it?"Pilih barang dari daf
 if(err){m.textContent=err;m.className="bad-t";return}
 S.tx.push({id:S.n++,t:jenis,d,doc,k:it[0],q,x:$("extra").value.trim()});save();
 const s=stock(it[0]);m.textContent="Tersimpan: "+it[1]+" "+(jenis==="M"?"+":"\u2212")+n(q)+". Stok sekarang "+n(s)+" "+it[2]+"."+(s<it[4]?" Perhatian: di bawah minimum.":"");m.className=s<it[4]?"warn":"ok-t";
-$("qty").value="";$("item").value="";render();$("item").focus()};
+$("qty").value="";$("item").value="";render();const nr=$("log").firstElementChild;if(nr)nr.classList.add("new");$("item").focus()};
 $("log").onclick=e=>{const b=e.target.closest("button[data-id]");if(!b)return;S.tx=S.tx.filter(t=>String(t.id)!==b.dataset.id);save();render()};
 $("ni").onclick=()=>{const ids=["nk","nn","ns","na","nm"],v=ids.map(i=>$(i).value.trim()),m=$("nmsg");
 if(!v[0]||!v[1]||!v[2]){m.textContent="Kode, nama, dan satuan wajib diisi.";return}
-if(S.items.some(i=>i[0].toLowerCase()===v[0].toLowerCase())){m.textContent="Kode sudah ada.";return}
+const cur=ed&&S.items.find(i=>i[0]===ed);if(S.items.some(i=>i!==cur&&i[0].toLowerCase()===v[0].toLowerCase())){m.textContent="Kode sudah ada.";return}
+if(cur){const old=cur[0],q=parseFloat(v[3]);if(!(q>=0)){m.textContent="Isi stok saat ini (0 atau lebih).";return}
+const code=v[0].toUpperCase(),net=sum("M",old)-sum("K",old);S.tx.forEach(t=>{if(t.k===old)t.k=code});
+cur[0]=code;cur[1]=v[1];cur[2]=v[2];cur[3]=Math.round((q-net)*1000)/1000;cur[4]=parseFloat(v[4])||0;save();ids.forEach(i=>$(i).value="");setEd(0);m.textContent="Perubahan disimpan.";render();return}
 S.items.push([v[0].toUpperCase(),v[1],v[2],parseFloat(v[3])||0,parseFloat(v[4])||0]);save();ids.forEach(i=>$(i).value="");m.textContent="Barang ditambahkan.";render()};
+let ed=null;
+const setEd=on=>{$("asm").textContent=on?"Ubah barang":"Tambah barang baru";$("ni").textContent=on?"Simpan perubahan":"Tambah barang";$("nal").textContent=on?"Stok saat ini":"Stok awal";$("nc").hidden=!on;$("ad").classList.toggle("editing",!!on);if(!on)ed=null};
+$("stk").onclick=e=>{const b=e.target.closest("button[data-k]"),it=b&&S.items.find(i=>i[0]===b.dataset.k);if(!it)return;
+ed=it[0];["nk","nn","ns"].forEach((id,j)=>$(id).value=it[j]);$("na").value=+stock(it[0]).toFixed(3);$("nm").value=it[4];$("nmsg").textContent="";
+setEd(1);render();$("ad").open=true;$("nn").focus()};
+$("nc").onclick=()=>{["nk","nn","ns","na","nm"].forEach(i=>$(i).value="");$("nmsg").textContent="";setEd(0);render()};
 let armed=0,armT;const disarm=()=>{armed=0;$("rs").textContent="Reset ke data contoh";$("rs").classList.remove("armed")};
 $("rs").onclick=()=>{if(!armed){armed=1;$("rs").textContent="Klik lagi untuk menghapus semua transaksi dan barang baru";$("rs").classList.add("armed");armT=setTimeout(disarm,5000);return}
-clearTimeout(armT);S=fresh();save();disarm();render();setJ(jenis)};
+clearTimeout(armT);S=fresh();save();disarm();setEd(0);render();setJ(jenis)};
 $("exp").onclick=async()=>{const m=$("emsg");try{if(!window.XLSX)throw 0;
 const sheet=(j,a,b)=>{const rows=S.tx.filter(t=>t.t===j).sort((x,y)=>x.d<y.d?-1:x.d>y.d?1:x.id-y.id).map(t=>{const it=S.items.find(i=>i[0]===t.k)||[t.k,"",""];return [new Date(t.d+"T00:00:00"),t.doc,t.k,it[1],it[2],t.q,t.x]});
 const ws=XLSX.utils.aoa_to_sheet([["Tanggal",a,"Kode Barang","Nama Barang","Satuan","Jumlah",b],...rows],{cellDates:true});
